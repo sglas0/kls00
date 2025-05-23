@@ -8,6 +8,7 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
+      height: 100%;
     }
     #chatbot-toggle {
       position: fixed;
@@ -20,7 +21,7 @@
       height: 60px;
       cursor: pointer;
       padding: 0;
-      z-index: 9999;
+      z-index: 10000 !important;
       animation: pulse 2s infinite ease-in-out;
     }
     #chatbot-toggle svg {
@@ -37,13 +38,14 @@
       position: fixed;
       bottom: 90px;
       right: 20px;
-      width: 430px;
-      height: 590px;
+      width: 450px;
+      height: 620px;
       border-radius: 20px;
       overflow: hidden;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      background: #ffffff;
-      z-index: 9998;
+      background: #ffffff !important;
+      opacity: 1 !important;
+      z-index: 9999 !important;
       display: none;
       flex-direction: column;
     }
@@ -80,6 +82,7 @@
       height: 100%;
       border: none;
       flex-grow: 1;
+      box-sizing: border-box;
     }
     #chatbot-greeting {
       position: fixed;
@@ -93,7 +96,7 @@
       font-size: 15px;
       max-width: 240px;
       font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
-      z-index: 9999;
+      z-index: 10000 !important;
       border: 1px solid #e2e2e2;
       display: none;
       animation: fadeIn 0.6s ease-in-out;
@@ -104,8 +107,8 @@
     }
     @media (max-width: 500px) {
       #chatbot-container {
-        width: 90%;
-        height: 80%;
+        width: 90vw;
+        height: 80vh;
         right: 5%;
         bottom: 100px;
       }
