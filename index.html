@@ -116,6 +116,8 @@
   </style>
 </head>
 <body>
+
+<!-- Toggle Button -->
 <button id="chatbot-toggle" aria-label="Open Chatbot" title="Chat">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
     <circle cx="32" cy="32" r="32" fill="#ff5c5c" />
@@ -124,9 +126,13 @@
     <circle cx="36" cy="30" r="2" fill="#4a4a4a" />
   </svg>
 </button>
+
+<!-- Greeting Bubble -->
 <div id="chatbot-greeting" aria-live="polite">
   👋 Hi there! How can I help you today?
 </div>
+
+<!-- Chatbot Container -->
 <div id="chatbot-container" role="dialog" aria-label="Chatbot dialog">
   <div id="chatbot-header">
     <div id="chatbot-info">
@@ -140,40 +146,66 @@
     sandbox="allow-scripts allow-same-origin">
   </iframe>
 </div>
+
+<!-- JavaScript -->
 <script>
   const toggleBtn = document.getElementById('chatbot-toggle');
   const chatContainer = document.getElementById('chatbot-container');
   const closeBtn = document.getElementById('chatbot-close');
   const chatbotGreeting = document.getElementById('chatbot-greeting');
+  const isMobile = window.innerWidth <= 500;
+  const chatbotShown = localStorage.getItem('chatbotShown');
+  const chatbotGreetingShown = localStorage.getItem('chatbotGreetingShown');
+
+  let greetingTimer = null;
+
+  function hideGreetingPermanently() {
+    chatbotGreeting.style.display = 'none';
+    localStorage.setItem('chatbotGreetingShown', 'true');
+    if (greetingTimer) clearTimeout(greetingTimer);
+  }
+
   window.addEventListener('DOMContentLoaded', () => {
-    chatbotGreeting.style.display = 'block';
-    const greetingTimer = setTimeout(() => {
-      chatbotGreeting.style.display = 'none';
-    }, 15000);
-    setTimeout(() => {
-      chatContainer.style.display = 'flex';
-      toggleBtn.style.display = 'none';
-      chatbotGreeting.style.display = 'none';
-      clearTimeout(greetingTimer);
-    }, 5000);
+    // Show greeting if it hasn't been shown yet
+    if (!chatbotGreetingShown) {
+      chatbotGreeting.style.display = 'block';
+      greetingTimer = setTimeout(hideGreetingPermanently, 15000);
+    }
+
+    // Auto-open chatbot on desktop only if not yet shown
+    if (!chatbotShown && !isMobile) {
+      setTimeout(() => {
+        chatContainer.style.display = 'flex';
+        toggleBtn.style.display = 'none';
+        hideGreetingPermanently();
+        localStorage.setItem('chatbotShown', 'true');
+      }, 5000);
+    } else {
+      toggleBtn.style.display = 'block';
+    }
   });
+
   toggleBtn.addEventListener('click', () => {
     chatContainer.style.display = 'flex';
-    chatbotGreeting.style.display = 'none';
     toggleBtn.style.display = 'none';
+    hideGreetingPermanently();
+    localStorage.setItem('chatbotShown', 'true');
   });
+
   closeBtn.addEventListener('click', () => {
     chatContainer.style.display = 'none';
     toggleBtn.style.display = 'block';
-    chatbotGreeting.style.display = 'block';
+    chatbotGreeting.style.display = 'none';
   });
+
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       chatContainer.style.display = 'none';
       toggleBtn.style.display = 'block';
-      chatbotGreeting.style.display = 'block';
+      chatbotGreeting.style.display = 'none';
     }
   });
 </script>
+
 </body>
 </html>
