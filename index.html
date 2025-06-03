@@ -157,28 +157,24 @@
   const chatbotShown = localStorage.getItem('chatbotShown');
   const chatbotGreetingShown = localStorage.getItem('chatbotGreetingShown');
 
-  let greetingTimer = null;
-
-  function hideGreetingPermanently() {
-    chatbotGreeting.style.display = 'none';
-    localStorage.setItem('chatbotGreetingShown', 'true');
-    if (greetingTimer) clearTimeout(greetingTimer);
-  }
-
   window.addEventListener('DOMContentLoaded', () => {
-    // Show greeting if it hasn't been shown yet
+    // Show greeting for 8s if it hasn't been shown before
     if (!chatbotGreetingShown) {
       chatbotGreeting.style.display = 'block';
-      greetingTimer = setTimeout(hideGreetingPermanently, 15000);
+      setTimeout(() => {
+        chatbotGreeting.style.display = 'none';
+        localStorage.setItem('chatbotGreetingShown', 'true');
+      }, 8000);
     }
 
-    // Auto-open chatbot on desktop only if not yet shown
+    // Auto-open chatbot only once on desktop
     if (!chatbotShown && !isMobile) {
       setTimeout(() => {
         chatContainer.style.display = 'flex';
         toggleBtn.style.display = 'none';
-        hideGreetingPermanently();
+        chatbotGreeting.style.display = 'none';
         localStorage.setItem('chatbotShown', 'true');
+        localStorage.setItem('chatbotGreetingShown', 'true');
       }, 5000);
     } else {
       toggleBtn.style.display = 'block';
@@ -188,8 +184,9 @@
   toggleBtn.addEventListener('click', () => {
     chatContainer.style.display = 'flex';
     toggleBtn.style.display = 'none';
-    hideGreetingPermanently();
+    chatbotGreeting.style.display = 'none';
     localStorage.setItem('chatbotShown', 'true');
+    localStorage.setItem('chatbotGreetingShown', 'true');
   });
 
   closeBtn.addEventListener('click', () => {
@@ -206,6 +203,9 @@
     }
   });
 </script>
+
+</body>
+</html>
 
 </body>
 </html>
