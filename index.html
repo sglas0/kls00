@@ -2,37 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Hammond Farms Chatbot Widget</title>
+  <title>Custom Chatbot Widget</title>
   <style>
-    :root {
-      --pulse-color: #fce19c;
-      --pulse-fade: #fce19c;
-
-      --button-fill: #440e06;
-      --chat-icon-color: #ffffff;
-      --chat-icon-dot: #000000;
-
-      --header-gradient-start: #440e06;
-      --header-gradient-end: #8e544d;
-      --header-text-color: #ffffff;
-      --header-subtext-color: #000000;
-
-      --container-background: #ffffff;
-
-      --greeting-background: #fce19c;
-      --greeting-text-color: #000000;
-      --greeting-border-color: #440e06;
-
-      --greeting-message: "👋 Hello! How can we assist you?";
-    }
-
     html, body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
       height: 100%;
     }
-
     #chatbot-toggle {
       position: fixed;
       bottom: 20px;
@@ -47,19 +24,16 @@
       z-index: 10000 !important;
       animation: pulse 2s infinite ease-in-out;
     }
-
     #chatbot-toggle svg {
       width: 60px;
       height: 60px;
       border-radius: 50%;
     }
-
     @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 var(--pulse-color); }
-      50% { box-shadow: 0 0 0 12px var(--pulse-fade); }
-      100% { box-shadow: 0 0 0 0 var(--pulse-fade); }
+      0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.6); }
+      50% { box-shadow: 0 0 0 12px rgba(255, 0, 0, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
     }
-
     #chatbot-container {
       position: fixed;
       bottom: 90px;
@@ -69,46 +43,40 @@
       border-radius: 20px;
       overflow: hidden;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      background: var(--container-background) !important;
+      background: #ffffff !important;
       opacity: 1 !important;
       z-index: 9999 !important;
       display: none;
       flex-direction: column;
     }
-
     #chatbot-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 10px 15px;
-      background: linear-gradient(90deg, var(--header-gradient-start), var(--header-gradient-end));
-      color: var(--header-text-color);
+      background: linear-gradient(90deg, #fdb3b3 0%, #ff7171 100%);
+      color: #fff;
       font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
     }
-
     #chatbot-info {
       display: flex;
       flex-direction: column;
     }
-
     #chatbot-name {
       font-weight: bold;
       font-size: 18px;
     }
-
     #chatbot-title {
       font-size: 12px;
-      color: var(--header-subtext-color);
+      color: #f0f0f0;
     }
-
     #chatbot-close {
       background: transparent;
       border: none;
       font-size: 20px;
-      color: var(--header-text-color);
+      color: #fff;
       cursor: pointer;
     }
-
     #chatbot-iframe {
       width: 100%;
       height: 100%;
@@ -116,13 +84,12 @@
       flex-grow: 1;
       box-sizing: border-box;
     }
-
     #chatbot-greeting {
       position: fixed;
       bottom: 100px;
       right: 30px;
-      background: var(--greeting-background);
-      color: var(--greeting-text-color);
+      background: #fef9f9;
+      color: #4a4a4a;
       padding: 12px 16px;
       border-radius: 18px;
       box-shadow: 0 8px 16px rgba(0,0,0,0.15);
@@ -130,16 +97,14 @@
       max-width: 240px;
       font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
       z-index: 10000 !important;
-      border: 1px solid var(--greeting-border-color);
+      border: 1px solid #e2e2e2;
       display: none;
       animation: fadeIn 0.6s ease-in-out;
     }
-
     @keyframes fadeIn {
       0% { opacity: 0; transform: translateY(10px); }
       100% { opacity: 1; transform: translateY(0); }
     }
-
     @media (max-width: 500px) {
       #chatbot-container {
         width: 90vw;
@@ -155,21 +120,23 @@
 <!-- Toggle Button -->
 <button id="chatbot-toggle" aria-label="Open Chatbot" title="Chat">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-    <circle cx="32" cy="32" r="32" style="fill: var(--button-fill);" />
-    <path d="M20 20h24c2.2 0 4 1.8 4 4v12c0 2.2-1.8 4-4 4H28l-6 6v-6h-2c-2.2 0-4-1.8-4-4V24c0-2.2 1.8-4 4-4z" style="fill: var(--chat-icon-color);" />
-    <circle cx="28" cy="30" r="2" style="fill: var(--chat-icon-dot);" />
-    <circle cx="36" cy="30" r="2" style="fill: var(--chat-icon-dot);" />
+    <circle cx="32" cy="32" r="32" fill="#ff5c5c" />
+    <path d="M20 20h24c2.2 0 4 1.8 4 4v12c0 2.2-1.8 4-4 4H28l-6 6v-6h-2c-2.2 0-4-1.8-4-4V24c0-2.2 1.8-4 4-4z" fill="#ffffff" />
+    <circle cx="28" cy="30" r="2" fill="#4a4a4a" />
+    <circle cx="36" cy="30" r="2" fill="#4a4a4a" />
   </svg>
 </button>
 
 <!-- Greeting Bubble -->
-<div id="chatbot-greeting" aria-live="polite"></div>
+<div id="chatbot-greeting" aria-live="polite">
+  👋 Hi there! How can I help you today?
+</div>
 
 <!-- Chatbot Container -->
 <div id="chatbot-container" role="dialog" aria-label="Chatbot dialog">
   <div id="chatbot-header">
     <div id="chatbot-info">
-      <div id="chatbot-name">Hammond Farms Customer Service</div>
+      <div id="chatbot-name">KLS Customer Success Center</div>
     </div>
     <button id="chatbot-close" aria-label="Close Chatbot">×</button>
   </div>
@@ -180,6 +147,7 @@
   </iframe>
 </div>
 
+<!-- JavaScript -->
 <script>
   const toggleBtn = document.getElementById('chatbot-toggle');
   const chatContainer = document.getElementById('chatbot-container');
@@ -190,16 +158,16 @@
   const chatbotGreetingShown = localStorage.getItem('chatbotGreetingShown');
 
   window.addEventListener('DOMContentLoaded', () => {
-    chatbotGreeting.textContent = getComputedStyle(document.documentElement).getPropertyValue('--greeting-message').replace(/(^\s*\")|("\s*$)/g, '');
-
+    // Show greeting for 8s if it hasn't been shown before
     if (!chatbotGreetingShown) {
       chatbotGreeting.style.display = 'block';
       setTimeout(() => {
         chatbotGreeting.style.display = 'none';
         localStorage.setItem('chatbotGreetingShown', 'true');
-      }, 8000);
+      }, 4000);
     }
 
+    // Auto-open chatbot only once on desktop
     if (!chatbotShown && !isMobile) {
       setTimeout(() => {
         chatContainer.style.display = 'flex';
