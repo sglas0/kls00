@@ -47,9 +47,9 @@
       border-radius: 20px;
       overflow: hidden;
       background: #ffffff;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3); 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       opacity: 1 !important;
-      z-index: 9999 !important; 
+      z-index: 9999 !important;
       display: none;
       flex-direction: column;
     }
@@ -181,41 +181,63 @@
 
 <!-- JavaScript Logic -->
 <script>
-  const toggleBtn = document.getElementById('chatbot-toggle');
-  const chatContainer = document.getElementById('chatbot-container');
-  const closeBtn = document.getElementById('chatbot-close');
-  const chatbotGreeting = document.getElementById('chatbot-greeting');
+  const toggleBtn        = document.getElementById('chatbot-toggle');
+  const chatContainer    = document.getElementById('chatbot-container');
+  const closeBtn         = document.getElementById('chatbot-close');
+  const chatbotGreeting  = document.getElementById('chatbot-greeting');
 
+  // Keys for localStorage
+  const GREETING_KEY     = 'chatbot_greeting_shown';
+  const CHATBOT_CLOSED   = 'chatbot_closed_by_user';
+
+  // Configuration
+  const GREETING_TIME_MS = 8000;  // Hide greeting after 8 s
+  const AUTO_OPEN_DELAY  = 4000;  // Auto‑open chatbot after 4 s
+
+  const hasSeenGreeting  = () => localStorage.getItem(GREETING_KEY) === 'true';
+  const hasClosedChatbot = () => localStorage.getItem(CHATBOT_CLOSED) === 'true';
+
+  // ---------- Initial load ----------
   window.addEventListener('DOMContentLoaded', () => {
-    chatbotGreeting.style.display = 'block';
-    const greetingTimer = setTimeout(() => {
-      chatbotGreeting.style.display = 'none';
-    }, 4000);
-    setTimeout(() => {
-      chatContainer.style.display = 'flex';
-      toggleBtn.style.display = 'none';
-      chatbotGreeting.style.display = 'none';
-      clearTimeout(greetingTimer);
-    }, 4000);
+    if (!hasSeenGreeting() && !hasClosedChatbot()) {
+      // Show greeting bubble once
+      chatbotGreeting.style.display = 'block';
+
+      // Auto‑open the chatbot after 4 seconds
+      setTimeout(() => {
+        chatbotGreeting.style.display = 'none';
+        chatContainer.style.display  = 'flex';
+        toggleBtn.style.display      = 'none';
+        localStorage.setItem(GREETING_KEY, 'true');
+      }, AUTO_OPEN_DELAY);
+
+      // Ensure greeting disappears permanently after 8 seconds
+      setTimeout(() => {
+        chatbotGreeting.style.display = 'none';
+        localStorage.setItem(GREETING_KEY, 'true');
+      }, GREETING_TIME_MS);
+    }
   });
 
+  // ---------- User interactions ----------
   toggleBtn.addEventListener('click', () => {
     chatContainer.style.display = 'flex';
+    toggleBtn.style.display     = 'none';
     chatbotGreeting.style.display = 'none';
-    toggleBtn.style.display = 'none';
+    localStorage.setItem(GREETING_KEY, 'true');
   });
 
   closeBtn.addEventListener('click', () => {
     chatContainer.style.display = 'none';
-    toggleBtn.style.display = 'block';
-    chatbotGreeting.style.display = 'block';
+    toggleBtn.style.display     = 'block';
+    localStorage.setItem(CHATBOT_CLOSED, 'true');
   });
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       chatContainer.style.display = 'none';
-      toggleBtn.style.display = 'block';
-      chatbotGreeting.style.display = 'block';
+      toggleBtn.style.display     = 'block';
+      localStorage.setItem(CHATBOT_CLOSED, 'true');
     }
   });
 </script>
