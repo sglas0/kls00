@@ -190,13 +190,13 @@
     chatbotGreeting.style.display = 'block';
     const greetingTimer = setTimeout(() => {
       chatbotGreeting.style.display = 'none';
-    }, 15000);
+    }, 4000);
     setTimeout(() => {
       chatContainer.style.display = 'flex';
       toggleBtn.style.display = 'none';
       chatbotGreeting.style.display = 'none';
       clearTimeout(greetingTimer);
-    }, 5000);
+    }, 4000);
   });
 
   toggleBtn.addEventListener('click', () => {
